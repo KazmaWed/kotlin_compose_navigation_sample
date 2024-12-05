@@ -17,7 +17,6 @@ import com.example.composenavigationsample.ui.NavigatorScreens
 @Composable
 fun MainScreenTopAppBar(
     title: String,
-    globalNavController: NavController,
     navController: NavController,
     onClickSetting: () -> Unit,
     modifier: Modifier = Modifier,
@@ -62,7 +61,7 @@ fun MainScreenBottomAppBar(
             selected = selectedItem is NavigatorScreens,
             label = { Text("ナビゲーション") },
             icon = { Icon(Icons.Default.PlayArrow, "ナビゲーション画面タブ") },
-            onClick = { onClick(NavigatorScreens.Page(1)) }
+            onClick = { onClick(NavigatorScreens.Index) }
         )
     }
 }

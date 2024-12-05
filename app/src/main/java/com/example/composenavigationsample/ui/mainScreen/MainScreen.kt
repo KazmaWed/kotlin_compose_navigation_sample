@@ -30,10 +30,10 @@ fun MainScreen(
     val navigatorScreenNavController = rememberNavController()
 
     fun currentScreenNavController(): NavController {
-        if (uiState.value.selectedItem is IncrementScreens) {
-            return incrementScreenNavController
+        return if (uiState.value.selectedItem is IncrementScreens) {
+            incrementScreenNavController
         } else {
-            return navigatorScreenNavController
+            navigatorScreenNavController
         }
     }
 
@@ -41,7 +41,6 @@ fun MainScreen(
         topBar = {
             MainScreenTopAppBar(
                 title = sharedUiState.value.currentScreen.title,
-                globalNavController = globalNavController,
                 navController = currentScreenNavController(),
                 onClickSetting = {
                     globalNavController.navigate(AppScreen.Setting.route)
@@ -51,7 +50,15 @@ fun MainScreen(
         bottomBar = {
             MainScreenBottomAppBar(
                 selectedItem = uiState.value.selectedItem,
-                onClick = { destination -> viewModel.selectBottomBarItem(destination) }
+                onClick = { destination ->
+                    if (destination == uiState.value.selectedItem) {
+                        if (destination is NavigatorScreens) {
+                            navigatorScreenNavController.popBackStack(NavigatorScreens.Index.route, false)
+                        }
+                    } else {
+                        viewModel.selectBottomBarItem(destination)
+                    }
+                }
             )
         },
         modifier = modifier

@@ -21,6 +21,7 @@ sealed class NavigatorScreens(
     override val title: String,
     override val route: String
 ) : AppDestination {
+    object Index : NavigatorScreens("ページ 1", "$navigatorScreenRoute/index")
     data class Page(val count: Int) : NavigatorScreens(
         "ページ $count ",
         navigatorScreen(count)
@@ -34,7 +35,7 @@ private fun navigatorScreen(count: Int): String {
     return navigatorScreenRoute + "?count=${count.toString()}"
 }
 
-private val navigatorScreenComposableRoute
+val navigatorScreenComposableRoute
     get() = "$navigatorScreenRoute?count={count}"
 
 
@@ -67,8 +68,18 @@ fun NavigatorScreenNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigatorScreens.Page(1).route,
+        startDestination = NavigatorScreens.Index.route,
     ) {
+        composable(
+            route = NavigatorScreens.Index.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) { backStackEntry ->
+            sharedViewModel.navigate(NavigatorScreens.Page(1))
+            NavigatorScreen(1, navController)
+        }
         composable(
             route = navigatorScreenComposableRoute,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
@@ -77,9 +88,7 @@ fun NavigatorScreenNavHost(
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
             val count = backStackEntry.arguments?.getString("count")!!.toInt()
-            sharedViewModel.navigate(
-                NavigatorScreens.Page(count)
-            )
+            sharedViewModel.navigate(NavigatorScreens.Page(count))
             NavigatorScreen(count, navController)
         }
     }
