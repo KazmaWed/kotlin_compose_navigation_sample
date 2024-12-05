@@ -7,5 +7,6 @@ import com.example.composenavigationsample.ui.mainScreen.MainScreenViewModel
 object ViewModelProvider {
     val Factory = viewModelFactory {
         initializer { MainScreenViewModel() }
+        initializer { SharedViewModel() }
     }
 }

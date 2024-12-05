@@ -5,13 +5,13 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composenavigationsample.ui.loginScreen.LoginScreen
 import com.example.composenavigationsample.ui.mainScreen.MainScreen
-import com.example.composenavigationsample.ui.mainScreen.MainScreenViewModel
 import com.example.composenavigationsample.ui.settingScreen.SettingScreen
 
 
@@ -37,8 +37,8 @@ sealed class AppScreen(
 
 @Composable
 fun AppNavHost(
-    mainViewModel: MainScreenViewModel = MainScreenViewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    sharedViewModel: SharedViewModel = viewModel()
 ) {
     NavHost(
         navController = navController,
@@ -51,6 +51,7 @@ fun AppNavHost(
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
+            sharedViewModel.navigate(AppScreen.Login)
             LoginScreen(navController)
         }
         composable(
@@ -60,8 +61,8 @@ fun AppNavHost(
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
-            mainViewModel.navigateContent(IncrementScreens.Index)
-            MainScreen(mainViewModel, navController)
+            sharedViewModel.navigate(AppScreen.Main)
+            MainScreen(navController)
         }
         composable(
             route = AppScreen.Setting.route,
@@ -70,6 +71,7 @@ fun AppNavHost(
             popEnterTransition = { slideInVertically(initialOffsetY = { -it }) },
             popExitTransition = { slideOutVertically(targetOffsetY = { it }) },
         ) { backStackEntry ->
+            sharedViewModel.navigate(AppScreen.Setting)
             SettingScreen(navController)
         }
     }

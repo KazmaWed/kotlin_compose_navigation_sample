@@ -7,24 +7,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.composenavigationsample.ui.AppScreen
 import com.example.composenavigationsample.ui.IncrementScreens
 import com.example.composenavigationsample.ui.IncrementScreenNavHost
 import com.example.composenavigationsample.ui.NavigatorScreens
 import com.example.composenavigationsample.ui.NavigatorScreenNavHost
-import com.example.composenavigationsample.ui.incrementScreen.IncrementScreenViewModel
+import com.example.composenavigationsample.ui.SharedViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: MainScreenViewModel,
     globalNavController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MainScreenViewModel = viewModel(),
+    sharedViewModel: SharedViewModel = viewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsState()
+    val sharedUiState = sharedViewModel.uiState.collectAsState()
 
     val incrementScreenNavController = rememberNavController()
-    val incrementScreenViewModel = IncrementScreenViewModel()
     val navigatorScreenNavController = rememberNavController()
 
     fun currentScreenNavController(): NavController {
@@ -38,7 +40,7 @@ fun MainScreen(
     Scaffold(
         topBar = {
             MainScreenTopAppBar(
-                title = uiState.value.currentScreen.title,
+                title = sharedUiState.value.currentScreen.title,
                 globalNavController = globalNavController,
                 navController = currentScreenNavController(),
                 onClickSetting = {
@@ -59,15 +61,8 @@ fun MainScreen(
             modifier = Modifier.padding(safeInsets)
         ) {
             when (uiState.value.selectedItem) {
-                is IncrementScreens -> IncrementScreenNavHost(
-                    incrementScreenViewModel,
-                    incrementScreenNavController
-                )
-
-                is NavigatorScreens -> NavigatorScreenNavHost(
-                    navigatorScreenNavController,
-                    viewModel
-                )
+                is IncrementScreens -> IncrementScreenNavHost(incrementScreenNavController)
+                is NavigatorScreens -> NavigatorScreenNavHost(navigatorScreenNavController)
             }
         }
     }
