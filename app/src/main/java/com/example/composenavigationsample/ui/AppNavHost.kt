@@ -1,9 +1,7 @@
 package com.example.composenavigationsample.ui
 
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -66,10 +64,10 @@ fun AppNavHost(
         }
         composable(
             route = AppScreen.Setting.route,
-            enterTransition = { slideInVertically(initialOffsetY = { it }) },
-            exitTransition = { slideOutVertically(targetOffsetY = { -it }) },
-            popEnterTransition = { slideInVertically(initialOffsetY = { -it }) },
-            popExitTransition = { slideOutVertically(targetOffsetY = { it }) },
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
             sharedViewModel.navigate(AppScreen.Setting)
             SettingScreen(navController)
