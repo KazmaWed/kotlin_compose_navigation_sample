@@ -8,8 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.composenavigationsample.ui.AppScreen
+import com.example.composenavigationsample.ui.AppScreens
 import com.example.composenavigationsample.ui.IncrementScreens
 import com.example.composenavigationsample.ui.IncrementScreenNavHost
 import com.example.composenavigationsample.ui.NavigatorScreens
@@ -22,12 +23,11 @@ fun MainScreen(
     modifier: Modifier = Modifier,
     viewModel: MainScreenViewModel = viewModel(),
     sharedViewModel: SharedViewModel = viewModel(),
+    incrementScreenNavController: NavHostController = rememberNavController(),
+    navigatorScreenNavController: NavHostController = rememberNavController(),
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val sharedUiState = sharedViewModel.uiState.collectAsState()
-
-    val incrementScreenNavController = rememberNavController()
-    val navigatorScreenNavController = rememberNavController()
 
     fun currentScreenNavController(): NavController {
         return if (uiState.value.selectedItem is IncrementScreens) {
@@ -43,7 +43,7 @@ fun MainScreen(
                 title = sharedUiState.value.currentScreen.title,
                 navController = currentScreenNavController(),
                 onClickSetting = {
-                    globalNavController.navigate(AppScreen.Setting.route)
+                    globalNavController.navigate(AppScreens.Setting.route)
                 }
             )
         },

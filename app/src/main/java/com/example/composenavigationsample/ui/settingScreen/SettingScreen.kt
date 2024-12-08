@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.composenavigationsample.ui.AppScreen
+import com.example.composenavigationsample.ui.AppScreens
 
 @Composable
 fun SettingScreen(
@@ -19,7 +19,7 @@ fun SettingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(AppScreen.Setting.title) }
+                title = { Text(AppScreens.Setting.title) }
             )
         },
         modifier = modifier,

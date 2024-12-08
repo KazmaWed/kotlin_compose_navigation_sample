@@ -8,8 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.composenavigationsample.ui.AppScreen
-import com.example.composenavigationsample.ui.mainScreen.MainScreen
+import com.example.composenavigationsample.ui.AppScreens
 
 @Composable
 fun LoginScreen(
@@ -31,7 +30,7 @@ fun LoginScreen(
                 .fillMaxSize()
         ) {
             Button(
-                onClick = { navController.navigate(AppScreen.Main.route) }
+                onClick = { navController.navigate(AppScreens.Main.route) }
             ) {
                 Text("ログインする")
             }

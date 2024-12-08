@@ -21,23 +21,22 @@ sealed class NavigatorScreens(
     override val title: String,
     override val route: String
 ) : AppDestination {
-    object Index : NavigatorScreens("ページ 1", "$navigatorScreenRoute/index")
+    object Index : NavigatorScreens("ページ 1", "$navigatorScreensRoute/index")
     data class Page(val count: Int) : NavigatorScreens(
         "ページ $count ",
-        navigatorScreen(count)
+        navigatorScreensRouteWithCount(count)
     )
 }
 
-private val navigatorScreenRoute
+private val navigatorScreensRoute
     get() = "navigator"
 
-private fun navigatorScreen(count: Int): String {
-    return navigatorScreenRoute + "?count=${count.toString()}"
+private fun navigatorScreensRouteWithCount(count: Int): String {
+    return navigatorScreensRoute + "?count=${count.toString()}"
 }
 
-val navigatorScreenComposableRoute
-    get() = "$navigatorScreenRoute?count={count}"
-
+private val navigatorScreensRouteFormat
+    get() = "$navigatorScreensRoute?count={count}"
 
 @Composable
 fun IncrementScreenNavHost(
@@ -81,7 +80,7 @@ fun NavigatorScreenNavHost(
             NavigatorScreen(1, navController)
         }
         composable(
-            route = navigatorScreenComposableRoute,
+            route = navigatorScreensRouteFormat,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },

@@ -17,7 +17,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val localSharedViewModel = compositionLocalOf<SharedViewModel> { error("SharedViewModel not provided") }
+            val localSharedViewModel = compositionLocalOf<SharedViewModel> {
+                error("SharedViewModel not provided")
+            }
             CompositionLocalProvider(
                 localSharedViewModel provides viewModel(factory = ViewModelProvider.Factory)
             ) {

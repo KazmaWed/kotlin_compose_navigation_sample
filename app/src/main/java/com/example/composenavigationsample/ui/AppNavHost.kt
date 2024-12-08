@@ -24,13 +24,13 @@ interface AppDestination {
     val route: String
 }
 
-sealed class AppScreen(
+sealed class AppScreens(
     override val title: String,
     override val route: String
 ) : AppDestination {
-    object Login : AppScreen("ログイン", "login")
-    object Main : AppScreen("メイン", "main")
-    object Setting : AppScreen("設定", "setting")
+    object Login : AppScreens("ログイン", "login")
+    object Main : AppScreens("メイン", "main")
+    object Setting : AppScreens("設定", "setting")
 }
 
 @Composable
@@ -40,36 +40,36 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppScreen.Login.route,
+        startDestination = AppScreens.Login.route,
     ) {
         composable(
-            route = AppScreen.Login.route,
+            route = AppScreens.Login.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
-            sharedViewModel.navigate(AppScreen.Login)
+            sharedViewModel.navigate(AppScreens.Login)
             LoginScreen(navController)
         }
         composable(
-            route = AppScreen.Main.route,
+            route = AppScreens.Main.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
-            sharedViewModel.navigate(AppScreen.Main)
+            sharedViewModel.navigate(AppScreens.Main)
             MainScreen(navController)
         }
         composable(
-            route = AppScreen.Setting.route,
+            route = AppScreens.Setting.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
         ) { backStackEntry ->
-            sharedViewModel.navigate(AppScreen.Setting)
+            sharedViewModel.navigate(AppScreens.Setting)
             SettingScreen(navController)
         }
     }

@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.example.composenavigationsample.ui.NavigatorScreens
-import com.example.composenavigationsample.ui.mainScreen.MainScreenViewModel
 
 @Composable
 fun NavigatorScreen(
